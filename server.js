@@ -16,12 +16,12 @@ app.use(express.json());
 app.post("/build-resume", async (req, res) => {
     try {
         const result = await buildResume(req.body);
-        res.json(result);
+        res.json({ success: true, result: result });
     } catch (err) {
-        console.error(err);
+        console.log(err);
         res.status(500).json({
             success: false,
-            message: "Failed to generate resume",
+            result: "Failed to generate resume",
         });
     }
 });
