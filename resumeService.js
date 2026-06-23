@@ -56,7 +56,12 @@ Output format:
       "grade": ""
     }
   ],
-  "certifications": [],
+  "certifications": [
+  {
+      certificateName: "",
+      certificateProvider: "",
+    }
+  ],
   "achievements": "",
   "atsOptimization": {
     "matchedKeywords": [],
