@@ -18,6 +18,49 @@ const pdfDownload = async (req, res) => {
         
 
                     <meta charset="UTF-8">
+                        <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; font-size: 13px; color: #111; background: #fff; line-height: 1.6; }
+ 
+        #resumeToDownload {
+            max-width: 896px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 24px;
+            font-family: Arial, sans-serif;
+            color: #111;
+        }
+ 
+        .pb-4 { padding-bottom: 16px; }
+        .text-center { text-align: center; border-bottom: 2px solid #111; margin-bottom: 16px; }
+        .text-3xl { font-size: 26px; }
+        .font-bold { font-weight: 700; }
+        .mt-2 { margin-top: 8px; }
+        .text-sm { font-size: 12px; color: #000; }
+        .mt-6 { margin-top: 18px; }
+ 
+        h2 {
+            font-size: 12px;
+            font-weight: 700;
+            border-bottom: 1px solid #000;
+            padding-bottom: 3px;
+            margin-bottom: 8px;
+        }
+ 
+        .uppercase { text-transform: uppercase; letter-spacing: 0.5px; }
+        .whitespace-pre-line { white-space: pre-line; font-size: 12.5px; line-height: 1.7; }
+        .mt-4 { margin-top: 12px; }
+        .font-semibold { font-size: 13px; font-weight: 700; color: #000; }
+        .text-gray-600 { color: #444; }
+        .list-disc { list-style-type: disc; }
+        .pl-5 { padding-left: 20px; }
+ 
+        ul li { font-size: 12.5px; color: #111; margin-bottom: 3px; line-height: 1.6; }
+        p { font-size: 12.5px; color: #111; line-height: 1.6; margin-bottom: 3px; }
+        strong { font-weight: 700; color: #000; }
+        h3 { font-size: 13px; font-weight: 700; color: #000; margin-bottom: 2px; }
+        a { color: #000; text-decoration: none; }
+    </style>
                    
     
                 
