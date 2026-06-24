@@ -5,10 +5,14 @@ const pdfDownload = async (req, res) => {
     try {
         const { html } = req.body;
 
-        const browser = await puppeteer.launch({
-            headless: true,
-            args: ["--no-sandbox", "--disable-setuid-sandbox"],
-        });
+       const browser = await puppeteer.launch({
+  args: [
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage',
+  ],
+  headless: true,
+});
 
         const page = await browser.newPage();
 
