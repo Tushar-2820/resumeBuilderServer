@@ -16,9 +16,10 @@ const pdfDownload = async (req, res) => {
 
         const page = await browser.newPage();
 
-        await page.setContent(html, {
-            waitUntil: "networkidle0",
-        });
+       await page.setContent(htmlContent, {
+      waitUntil: 'networkidle2',
+      timeout: 60000,
+    });
 
         const pdf = await page.pdf({
             format: "A4",
