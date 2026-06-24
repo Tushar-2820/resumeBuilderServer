@@ -1,7 +1,12 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs');
+const path = require('path');
 
-
-
+// Read once at startup
+const tailwindCSS = fs.readFileSync(
+    path.join(__dirname, 'tailwind.output.css'),
+    'utf8'
+);
 
 
 
@@ -20,6 +25,7 @@ const pdfDownload = async (req, res) => {
         
 
                     <meta charset="UTF-8">
+                    <style>${tailwindCSS}</style>
     
                 
              
