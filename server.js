@@ -9,10 +9,12 @@ const app = express();
 app.use(cors({
     origin: ["http://localhost:5173","https://ats-resume-builde.netlify.app"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ['Content-Type'],
     credentials: true, // only if you use cookies/auth
 }));
 
-app.use(express.json());
+app.use(express.json({ limit: '10mb' })); // increase limit for large HTML
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 app.post("/build-resume", async (req, res) => {
     try {
