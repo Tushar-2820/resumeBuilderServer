@@ -21,7 +21,7 @@ const pdfDownload = async (req, res) => {
                 </style>
                 <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css">
             </head>
-            <body class='bg-white p-10'>
+            <body class='bg-white p-5'>
                 ${html}
             </body>
             </html>
