@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer');
-const fs = require('fs');
-const path = require('path');
+
 
 
 
@@ -21,7 +20,7 @@ const pdfDownload = async (req, res) => {
         
 
                     <meta charset="UTF-8">
-                    <style>${tailwindCSS}</style>
+
                 
              
                
