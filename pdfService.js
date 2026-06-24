@@ -3,10 +3,11 @@ const fs = require('fs');
 const path = require('path');
 
 
-const tailwindCSS = fs.readFileSync(
-    path.join(__dirname, 'tailwind.output.css'),
-    'utf8'
-);
+let tailwindCSS = '';
+https.get('https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css', (res) => {
+    res.on('data', chunk => tailwindCSS += chunk);
+    res.on('end', () => console.log('Tailwind CSS loaded:', tailwindCSS.length, 'bytes'));
+}).on('error', (err) => console.error('Failed to load Tailwind:', err));
 
 const pdfDownload = async (req, res) => {
     try {
