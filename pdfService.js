@@ -1,5 +1,13 @@
 const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+const path = require('path');
 
+
+const tailwindCSS = fs.readFileSync(
+    path.join(__dirname, 'tailwind.output.css'),
+    'utf8'
+);
 
 const pdfDownload = async (req, res) => {
     try {
@@ -15,8 +23,8 @@ const pdfDownload = async (req, res) => {
             <head>
                 <meta charset="UTF-8">
                 <style>
-                    /* Inline critical styles as fallback */
-                    * { box-sizing: border-box; margin: 0; padding: 0; }
+                    <meta charset="UTF-8">
+                    <style>${tailwindCSS}</style>
                     body { font-family: sans-serif; }
                 </style>
                 <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css">
@@ -38,6 +46,17 @@ const pdfDownload = async (req, res) => {
 
         const page = await browser.newPage();
          await page.setViewport({ width: 1280, height: 800 });
+
+          // Block ALL external requests - no CDN, no fonts, no images
+        await page.setRequestInterception(true);
+        page.on('request', (req) => {
+            const url = req.url();
+            if (url.startsWith('http://') || url.startsWith('https://')) {
+                req.abort();
+            } else {
+                req.continue();
+            }
+        });
 
        await page.setContent(wrappedHtml, {
       waitUntil: 'networkidle2',
