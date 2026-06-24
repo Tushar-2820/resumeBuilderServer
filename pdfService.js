@@ -5,6 +5,28 @@ const pdfDownload = async (req, res) => {
     try {
         const { html } = req.body;
 
+            if (!html) {
+            return res.status(400).send("No HTML provided");
+        }
+
+         const wrappedHtml = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <style>
+                    /* Inline critical styles as fallback */
+                    * { box-sizing: border-box; margin: 0; padding: 0; }
+                    body { font-family: sans-serif; }
+                </style>
+                <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css">
+            </head>
+            <body>
+                ${html}
+            </body>
+            </html>
+        `;
+
        const browser = await puppeteer.launch({
   args: [
     '--no-sandbox',
@@ -15,11 +37,15 @@ const pdfDownload = async (req, res) => {
 });
 
         const page = await browser.newPage();
+         await page.setViewport({ width: 1280, height: 800 });
 
-       await page.setContent(html, {
+       await page.setContent(wrappedHtml, {
       waitUntil: 'networkidle2',
       timeout: 60000,
     });
+
+           await page.evaluateHandle('document.fonts.ready');
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
         const pdf = await page.pdf({
             format: "A4",
