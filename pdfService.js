@@ -1,5 +1,4 @@
 const puppeteer = require('puppeteer');
-const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 
@@ -21,13 +20,13 @@ const pdfDownload = async (req, res) => {
             <!DOCTYPE html>
             <html>
             <head>
-                <meta charset="UTF-8">
-                <style>
+        
+
                     <meta charset="UTF-8">
                     <style>${tailwindCSS}</style>
-                    body { font-family: sans-serif; }
-                </style>
-                <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css">
+                
+             
+               
             </head>
             <body class='bg-white p-5'>
                 ${html}
@@ -37,31 +36,31 @@ const pdfDownload = async (req, res) => {
 
        const browser = await puppeteer.launch({
   args: [
-    '--no-sandbox',
-    '--disable-setuid-sandbox',
-    '--disable-dev-shm-usage',
+   '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-gpu',
+                '--single-process',
   ],
-  headless: true,
+  headless: 'new',
 });
 
         const page = await browser.newPage();
          await page.setViewport({ width: 1280, height: 800 });
 
-          // Block ALL external requests - no CDN, no fonts, no images
+        
+     // Block external requests
         await page.setRequestInterception(true);
-        page.on('request', (req) => {
-            const url = req.url();
-            if (url.startsWith('http://') || url.startsWith('https://')) {
-                req.abort();
-            } else {
-                req.continue();
-            }
+        page.on('request', (interceptedReq) => {
+            interceptedReq.abort();
         });
 
-       await page.setContent(wrappedHtml, {
-      waitUntil: 'networkidle2',
-      timeout: 60000,
-    });
+  // Use data URI instead of setContent to avoid timeout
+        const encoded = Buffer.from(wrappedHtml).toString('base64');
+        await page.goto(`data:text/html;base64,${encoded}`, {
+            waitUntil: 'domcontentloaded',
+            timeout: 30000,
+        });
 
            await page.evaluateHandle('document.fonts.ready');
         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -91,6 +90,8 @@ const pdfDownload = async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).send("Failed to generate PDF");
+    } finally {
+        if (browser) await browser.close();
     }
 }
 
